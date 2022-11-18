@@ -1,6 +1,6 @@
 const Header = ({ course }) => <h1>{course}</h1>
 
-const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+// const Total = ({ sum }) => <p>Number of exercises {sum}</p>
 
 const Part = ({ part }) => 
   <p>
@@ -8,20 +8,28 @@ const Part = ({ part }) =>
   </p>
 
 const Content = ({ parts }) => 
-  <>
-    <Part
-      part={parts[0]} 
-    />
-    <Part
-      part={parts[1]} 
-    />
-    <Part
-      part={parts[2]} 
-    />      
-  </>
+<>
+    {parts.map(part => <Part key={part.id} part={part} />)}
+</>
+
+const Total = ({ parts }) =>
+{
+	const total = parts.reduce((sum, part) => {
+			return (sum + part.exercises);
+	}, 0)
+
+	return (	
+		<p>Number of exercises: {total} </p>
+	)
+}
 
 const Course = ({ course }) => {
-
-}
+	return (
+	<div>
+		<Header course={ course.name } />
+		<Content parts={ course.parts } />
+		<Total parts={ course.parts } />
+	</div>
+)}
 
 export default Course;
